@@ -1,24 +1,24 @@
 let controller = {};
 let format = require("../format").format;
-const jwt  = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const db = require("../database").config;
 
-controller.getLogin = (req, res) =>{
+controller.getLogin = (req, res) => {
     const user = {
-    id : req.body.id,
-    time : new Date().getTime()
+        id: req.body.id,
+        time: new Date().getTime()
     };
-    const token = jwt.sign({user}, db.secret_key,{expiresIn:'1m'});
+    const token = jwt.sign({user}, db.secret_key, {expiresIn:'10m'});
     res.status(200);
     format.success = true;
     format.code = 200;
     format.message = "Token";
     format.data = token;
-    res.json(format);
-};
+    res.json(format);       
+}
 
-controller.getUser = (req, res) =>
-{
+controller.getUser = (req, res) =>{
+
     const sql = "SELECT * FROM users WHERE id = ?";
 	req.getConnection((error,conn) => {
         if(error)
