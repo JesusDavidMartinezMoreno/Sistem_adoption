@@ -1,6 +1,6 @@
 const express =require("express"),
 app = express(),
-puerto = process.env.PORT || 3000,
+puerto = process.env.PORT || 3002,
 mysql = require("mysql"),
 bodyParser = require("body-parser"),
 myConnection = require("express-myconnection"),

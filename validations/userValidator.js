@@ -1,16 +1,23 @@
 const {check, validationResult } = require ('express-validator');
 
-const generateUserValidator = () => [
-    check('name').notEmpty().isLength({max:50}).whitMessage("Invalid name"),
-    check('lastname').notEmpty().isLength({max:50}).whitMessage("Invalid lastname"),
-    check('phone').notEmpty().isLength({min: 10, max:10}).whitMessage("Invalid phone"),
-    check('address').notEmpty().isLength({max:150}).whitMessage("Invalid address"),
+const generateUserValidators = () => [
+    check('name').notEmpty().isLength({max:50}).withMessage("Invalid name"),
+    check('lastname').notEmpty().isLength({max:50}).withMessage("Invalid lastname"),
+    check('phone').notEmpty().isLength({min: 10, max:10}).withMessage("Invalid phone"),
+    check('address').notEmpty().isLength({max:150}).withMessage("Invalid address"),
 ]
 
-const generatePublicUserValidators = () =>[
-
+const generateIdValidators = () =>[
+    check('id').notEmpty().isNumeric().withMessage("Invalid Id")
 ]
 
+const updateUserValidators = () =>[
+    check('id').notEmpty().isNumeric().withMessage("Invalid Id"),
+    check('name').notEmpty().isLength({max:50}).withMessage("Invalid name"),
+    check('lastname').notEmpty().isLength({max:50}).withMessage("Invalid lastname"),
+    check('phone').notEmpty().isLength({min: 10, max:10}).withMessage("Invalid phone"),
+    check('address').notEmpty().isLength({max:150}).withMessage("Invalid address"),
+]
 
 const reporter = (req, res, next) => {
     const errors = validationResult(req);
@@ -21,13 +28,22 @@ const reporter = (req, res, next) => {
         "message": errors,
         "data": []
     });
+    }
     next();
-}
 }
 
 module.exports = {
     add:[
-        generateUserValidator(),
+        generateUserValidators(),
+        reporter
+    ],
+    id:
+    [
+        generateIdValidators(),
+        reporter
+    ],
+    update:[
+        updateUserValidators(),
         reporter
     ]
 };

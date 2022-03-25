@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const adoptionsController = require('../controllers/adoptionsController');
+
 router.get('/adoption', adoptionsController.getAdoption);
 router.get('/adoptions', adoptionsController.getAdoptions);
 router.post('/adoption', adoptionsController.postAdoption);
